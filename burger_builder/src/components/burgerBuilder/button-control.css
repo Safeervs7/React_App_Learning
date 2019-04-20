@@ -1,0 +1,17 @@
+.buttonControl{
+    height: 30px;
+    width: 60px;
+    background-color: brown;
+    margin: 5px;
+}
+.buttonWrap{
+    clear: both;
+    margin-left: 30%;
+    margin-top: 50px;
+}
+.buttonWrap p{
+    min-width:100px;
+}
+.buttonWrap * {
+    float: left;
+}
