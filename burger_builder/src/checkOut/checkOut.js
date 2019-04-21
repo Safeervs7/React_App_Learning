@@ -2,6 +2,7 @@ import React from 'react';
 import WithDiv from '../hoc/withDiv';
 import Header from '../components/header/header';
 import BurgerIngredients from '../components/containers/burgerIngredients';
+import { Link } from "react-router-dom";
 import CheckOutPrice from '../components/checkOut/checkOutPrice';
 
 const CheckOut = (props) =>{
@@ -25,8 +26,12 @@ const CheckOut = (props) =>{
     return (<WithDiv>
                 <Header/>
                 <BurgerIngredients ingredients={ ingredients }/>
-                {transformPrice}
-                <CheckOutPrice item={"total price"} price={totalPrice}/> ;
+                <WithDiv>
+                    {transformPrice}
+                    <CheckOutPrice item={"total price"} price={totalPrice}/>
+                    <button><Link to={{ pathname: '/order-placed', query: { price: totalPrice } }}> order confirm </Link></button>
+                    <button><Link to="/" > order cancel </Link></button>
+                </WithDiv>
             </WithDiv>);
 }
 

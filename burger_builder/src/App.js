@@ -4,6 +4,7 @@ import './App.css';
 import BurgerBuilder from './burgerBuilder/burgerBuilder';
 import ErrorPage from './components/errorPage/errorPage';
 import CheckOut from './checkOut/checkOut';
+import OrderPlaced from './orderPlaced/orderPlaced';
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
             <Switch>
               <Route path="/" exact component={BurgerBuilder} />
               <Route path="/checkout" exact component={CheckOut} />
+              <Route path="/order-placed" exact component={OrderPlaced} />
               <Route component={ErrorPage} />
             </Switch>
           </Router>
