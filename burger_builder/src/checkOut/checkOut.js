@@ -29,7 +29,7 @@ const CheckOut = (props) =>{
                 <WithDiv>
                     {transformPrice}
                     <CheckOutPrice item={"total price"} price={totalPrice}/>
-                    <button><Link to={{ pathname: '/order-placed', query: { price: totalPrice } }}> order confirm </Link></button>
+                    <button><Link to={{ pathname: '/order-placed', query: { price: totalPrice }, noRedirect: false }}> order confirm </Link></button>
                     <button><Link to="/" > order cancel </Link></button>
                 </WithDiv>
             </WithDiv>);
