@@ -4,35 +4,17 @@ import ButtonControls from '../components/containers/buttonControls';
 import Aux from '../hoc/aux';
 import Header from '../components/header/header';
 import CheckOutButton from '../components/burgerBuilder/checkOutButton';
+import { connect } from 'react-redux';
 
 class BurgerBuilder extends Component {
-  state = {
-    ingredients : {
-        Salad: 1,
-        Bacon: 0,
-        Cheese: 0,
-        Meat: 0
-    }
-  }
-  // queryParams = ()=>{
-  //   const queryParams = [];
-  //       for (let i in this.state.ingredients) {
-  //           queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
-  //       }
-  //   const queryString = queryParams.join('&');
-  //   this.props.history.push({
-  //     pathname: '/checkout',
-  //     search: '?' + queryString
-  //   });
-  // }
   addingIngredient = (props)=>{
-    let ingredients = {...this.state.ingredients};
+    let ingredients = {...this.props.ings};
     let oldCount = ingredients[props];
     ingredients[props] = (oldCount + 1);
     this.setState({ingredients: ingredients});
   };
   removingIngredient = (props)=>{
-      let ingredients = {...this.state.ingredients};
+      let ingredients = {...this.props.ings};
       let oldCount = ingredients[props];
       if((oldCount - 1) >= 0){
         ingredients[props] = (oldCount - 1);
@@ -43,12 +25,24 @@ class BurgerBuilder extends Component {
     return (
         <Aux>
           <Header/>
-          <BurgerIngredients ingredients={this.state.ingredients}/>
-          <ButtonControls ingredients={this.state.ingredients} addingIngredient={this.addingIngredient} removingIngredient={this.removingIngredient}/>
-          <CheckOutButton clicked={this.queryParams} ingredients={this.state.ingredients}/>
+          <BurgerIngredients ingredients={this.props.ings}/>
+          <ButtonControls ingredients={this.props.ings} addingIngredient={this.props.addingIngredient} removingIngredient={this.props.removeIngredient}/>
+          <CheckOutButton clicked={this.queryParams} ingredients={this.props.ings}/>
         </Aux>
     );
   }
 }
 
-export default BurgerBuilder;
+const ingredientsProps = (state) =>{
+    return {
+        ings: state.ingredients
+    }
+}
+
+const ingredientsAction = (dispatch) =>{
+    return {
+        addingIngredient:(ingredient) => dispatch({type: "ADD_INGREDIENT", ingredientName: ingredient}),
+        removeIngredient:(ingredient) => dispatch({type: "REMOVE_INGREDIENT", ingredientName: ingredient}),
+    }
+}
+export default connect(ingredientsProps, ingredientsAction)(BurgerBuilder);

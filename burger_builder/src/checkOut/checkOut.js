@@ -4,6 +4,7 @@ import Header from '../components/header/header';
 import BurgerIngredients from '../components/containers/burgerIngredients';
 import { Link } from "react-router-dom";
 import CheckOutPrice from '../components/checkOut/checkOutPrice';
+import { connect } from 'react-redux';
 
 const CheckOut = (props) =>{
     let ingredientsPrice = {
@@ -12,11 +13,8 @@ const CheckOut = (props) =>{
             Cheese: 10,
             Meat: 15
         }
-    const query = new URLSearchParams(props.location.search);
-    const ingredients = {};
-    for (let param of query.entries()) {
-        ingredientsPrice[param[0]] = ingredientsPrice[param[0]] * param[1];
-        ingredients[param[0]] = +param[1];
+    for (var key in props.ings) {
+        ingredientsPrice[key] = ingredientsPrice[key] * props.ings[key]
     }
     let totalPrice = 0;
     const transformPrice = Object.keys(ingredientsPrice).map((ingredientPrice)=>{
@@ -25,7 +23,7 @@ const CheckOut = (props) =>{
     })
     return (<WithDiv>
                 <Header/>
-                <BurgerIngredients ingredients={ ingredients }/>
+                <BurgerIngredients ingredients={ props.ings }/>
                 <WithDiv>
                     {transformPrice}
                     <CheckOutPrice item={"total price"} price={totalPrice}/>
@@ -35,4 +33,10 @@ const CheckOut = (props) =>{
             </WithDiv>);
 }
 
-export default CheckOut;
+const ingredientsProps = (state) =>{
+    return {
+        ings: state.ingredients
+    }
+}
+
+export default connect(ingredientsProps)(CheckOut);
